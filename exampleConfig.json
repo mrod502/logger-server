@@ -1,0 +1,12 @@
+{
+  "baseConfig" : {
+    "enableTls" : true,
+    "port" : 3838
+  },
+  "certFilePath" : "k/sprints.crt",
+  "keyFilePath" : "k/sprints.key",
+  "keySignatures" : {
+    "ab83855a06e7fed58a924ce5b57d66cbae3533791c7dfcc99f3ddf3f1d26b6a6" : true
+  },
+  "logPath" : "system.log"
+}

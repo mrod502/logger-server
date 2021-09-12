@@ -1,0 +1,9 @@
+baseconfig: 
+  enable_tls: true
+  enable_websocket: true
+  port: 3838
+cert_file_path: server.crt
+key_file_path: server.key
+key_signatures: 
+  ab83855a06e7fed58a924ce5b57d66cbae3533791c7dfcc99f3ddf3f1d26b6a6: true
+log_path: system.log
