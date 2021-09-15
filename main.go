@@ -9,8 +9,8 @@ import (
 	"os/signal"
 	"path"
 
+	gocache "github.com/mrod502/go-cache"
 	"github.com/mrod502/logger"
-	yaml "gopkg.in/yaml.v3"
 )
 
 func main() {
@@ -31,22 +31,26 @@ func main() {
 	}
 
 	var config logger.ServerConfig
+	config.KeySignatures = gocache.NewBoolCache()
 	err = json.Unmarshal(b, &config)
 
 	if err != nil {
 		panic(err)
 	}
 	var server logger.LogServer
-	b, _ = yaml.Marshal(config)
 
-	fmt.Println(string(b))
 	server, err = logger.NewLogServer(config)
 	if err != nil {
 		panic(err)
 	}
 	defer server.Quit()
-	go server.Serve()
-	server.SetSyncInterval(1 << 7)
+	go func() {
+		err := server.Serve()
+		if err != nil {
+			panic(err)
+		}
+	}()
+
 	logger.Info("LOGGER", "listening on port", fmt.Sprintf("%d", config.Port))
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
