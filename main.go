@@ -18,8 +18,31 @@ func main() {
 	var err error
 
 	cfgPath := flag.String("config-path", "serverConfig.json", "the path to the config file")
+	generateApiKey := flag.Bool("gen-api-key", false, "generate a new api key")
+	generateKeyPair := flag.Bool("gen-key-pair", false, "generate a new pub/private key pair")
 	home, _ := os.UserHomeDir()
 	flag.Parse()
+
+	if *generateApiKey {
+		key, sig := logger.GenerateApiKey()
+		fmt.Println("api key:", key)
+		fmt.Println("sha256sum:", sig)
+		return
+	}
+	if *generateKeyPair {
+		key, err := logger.GenerateKey(4096)
+		if err != nil {
+			panic(err)
+		}
+		priv, pub, err := logger.MarshalKeyPair(key)
+
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(string(priv))
+		fmt.Println(string(pub))
+		return
+	}
 
 	b, err = ioutil.ReadFile(path.Join(home, *cfgPath))
 	if err != nil {
