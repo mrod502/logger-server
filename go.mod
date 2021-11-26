@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/mrod502/go-cache v1.1.16
-	github.com/mrod502/logger v1.1.19
+	github.com/mrod502/logger v1.1.20
 )
 
 require (

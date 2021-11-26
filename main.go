@@ -13,15 +13,27 @@ import (
 	"github.com/mrod502/logger"
 )
 
+const revision = "0.0.1"
+
+func version() string {
+	return fmt.Sprintf("logger-server version %s\nlogger version %s", revision, logger.Version())
+}
+
 func main() {
 	var b []byte
 	var err error
 
 	cfgPath := flag.String("config-path", "serverConfig.json", "the path to the config file")
+	versionFlag := flag.Bool("version", false, "print current version")
 	generateApiKey := flag.Bool("gen-api-key", false, "generate a new api key")
 	generateKeyPair := flag.Bool("gen-key-pair", false, "generate a new pub/private key pair")
 	home, _ := os.UserHomeDir()
 	flag.Parse()
+
+	if *versionFlag {
+		fmt.Println(version())
+		return
+	}
 
 	if *generateApiKey {
 		key, sig := logger.GenerateApiKey()
